@@ -11,7 +11,7 @@ import javax.swing.*;
 
 
 /**
- * @author babis naskre
+ * @author Kranas Charalampos
  */
 public class RoomListView extends JFrame {
 	
@@ -43,7 +43,15 @@ public class RoomListView extends JFrame {
 		    }	
 
 	private void buttonAddActionPerformed(ActionEvent e) {
-		// TODO add your code here
+		 Long tsLong = System.currentTimeMillis() / 1000;
+	        Room r = new Room(""+tsLong,"",0);
+	        int rv = DBManager.addRoom(r);
+	        if (rv != 0)
+	            JOptionPane.showMessageDialog(null, "Unable to create new Room", "Error",
+	                    JOptionPane.ERROR_MESSAGE);
+	        loadTable();
+	
+	
 	}
 
 	private void buttonDeleteActionPerformed(ActionEvent e) {
