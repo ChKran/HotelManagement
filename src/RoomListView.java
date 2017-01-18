@@ -21,7 +21,7 @@ public class RoomListView extends JFrame {
 		
 		
 		
-		
+	 
 		
 		public RoomListView() {
 			initComponents();
