@@ -47,7 +47,23 @@ public class RoomListView extends JFrame {
 	}
 
 	private void buttonDeleteActionPerformed(ActionEvent e) {
-		// TODO add your code here
+		int selected = table1.getSelectedRow();
+
+        if (selected == -1){
+            JOptionPane.showMessageDialog(null, "Please first select one Room from table!", "Error",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            String selctedRoomId = roomDbIds.get(selected);
+            int rv = DBManager.deleteRoom(selctedRoomId);
+            if (rv != 0)
+                JOptionPane.showMessageDialog(null, "Unable to delete selected Room", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            else
+                currentRow =-1;
+
+        }
+        loadTable();
 	}
 
 	private void buttonEditActionPerformed(ActionEvent e) {
@@ -129,7 +145,7 @@ public class RoomListView extends JFrame {
 		pack();
 		setLocationRelativeTo(getOwner());
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
-	//	loadTable();
+		 loadTable();
 	}
 	
 	
@@ -137,17 +153,17 @@ public class RoomListView extends JFrame {
 	private void loadTable() {
 		roomDbIds = new ArrayList<>();
 
-        ArrayList<Room> rm;
+        ArrayList<Room> rl;
 
-        rm = DBManager.getRoomList();
+        rl = DBManager.getRoomList();
 
-        Object rowData[][] = new Object[rm.size()][2];
+        Object rowData[][] = new Object[rl.size()][2];
 
         Object columnNames[] = { "Room Id", "Type"};
 
         int i=0;
 
-        for (Room r: rm) {
+        for (Room r: rl) {
 
             roomDbIds .add(r.getId());
 
