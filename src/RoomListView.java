@@ -55,7 +55,7 @@ public class RoomListView extends JFrame {
         }
         else {
             String selctedRoomId = roomDbIds.get(selected);
-            int rv = DBManager.deleteRoom(selctedRoomId);
+            int rv = DBManager.deleteRoomType(selctedRoomId);
             if (rv != 0)
                 JOptionPane.showMessageDialog(null, "Unable to delete selected Room", "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -66,9 +66,7 @@ public class RoomListView extends JFrame {
         loadTable();
 	}
 
-	private void buttonEditActionPerformed(ActionEvent e) {
-		// TODO add your code here
-	}
+	
 
 	private void buttonOkActionPerformed(ActionEvent e) {
 		   INSTANCE.close();
