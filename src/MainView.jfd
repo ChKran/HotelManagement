@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "5.2.5.0.333" Java: "1.8.0_91" encoding: "UTF-8"
+JFDML JFormDesigner: "5.2.5.0.333" Java: "1.8.0_111" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -54,6 +54,7 @@ new FormModel {
 				name: "buttonRooms"
 				"text": "Rooms"
 				"font": #Font0
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonRoomsActionPerformed", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 250
 				"height": 50
