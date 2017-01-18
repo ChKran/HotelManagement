@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 /*
  * Created by JFormDesigner on Wed Jan 18 13:19:06 EET 2017
@@ -14,6 +16,8 @@ import javax.swing.*;
 public class RoomListView extends JFrame {
 	
 	 private static RoomListView INSTANCE = null;
+	 private int currentRow = -1;
+	 ArrayList<String> roomDbIds ;
 		
 		
 		
@@ -58,23 +62,21 @@ public class RoomListView extends JFrame {
      INSTANCE.setVisible(false);
  }
 
-	private void scrollPane1PropertyChange(PropertyChangeEvent e) {
-		// TODO add your code here
-	}
+	
 
 	private void table1PropertyChange(PropertyChangeEvent e) {
 		// TODO add your code here
+		
 	}
 
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - babis naskre
-		scrollPane1 = new JScrollPane();
+		JScrollPane scrollPane1 = new JScrollPane();
 		table1 = new JTable();
 		button1 = new JButton();
 		button2 = new JButton();
 		button3 = new JButton();
-		button4 = new JButton();
 		label1 = new JLabel();
 
 		//======== this ========
@@ -83,38 +85,28 @@ public class RoomListView extends JFrame {
 
 		//======== scrollPane1 ========
 		{
-			scrollPane1.addPropertyChangeListener(e -> scrollPane1PropertyChange(e));
-
-			//---- table1 ----
-			table1.addPropertyChangeListener(e -> table1PropertyChange(e));
 			scrollPane1.setViewportView(table1);
 		}
 		contentPane.add(scrollPane1);
-		scrollPane1.setBounds(5, 35, 295, 200);
+		scrollPane1.setBounds(10, 40, 490, 365);
 
 		//---- button1 ----
 		button1.setText("Add");
 		button1.addActionListener(e -> buttonAddActionPerformed(e));
 		contentPane.add(button1);
-		button1.setBounds(325, 45, 55, button1.getPreferredSize().height);
+		button1.setBounds(500, 45, 90, 22);
 
 		//---- button2 ----
 		button2.setText("Delete");
 		button2.addActionListener(e -> buttonDeleteActionPerformed(e));
 		contentPane.add(button2);
-		button2.setBounds(new Rectangle(new Point(325, 85), button2.getPreferredSize()));
+		button2.setBounds(505, 80, 83, 37);
 
 		//---- button3 ----
 		button3.setText("Ok");
 		button3.addActionListener(e -> buttonOkActionPerformed(e));
 		contentPane.add(button3);
-		button3.setBounds(325, 210, 50, button3.getPreferredSize().height);
-
-		//---- button4 ----
-		button4.setText("Edit");
-		button4.addActionListener(e -> buttonEditActionPerformed(e));
-		contentPane.add(button4);
-		button4.setBounds(325, 120, 55, button4.getPreferredSize().height);
+		button3.setBounds(515, 305, 55, 37);
 
 		//---- label1 ----
 		label1.setText("Room List");
@@ -137,8 +129,87 @@ public class RoomListView extends JFrame {
 		pack();
 		setLocationRelativeTo(getOwner());
 		// JFormDesigner - End of component initialization  //GEN-END:initComponents
+	//	loadTable();
 	}
+	
+	
+	
+	private void loadTable() {
+		roomDbIds = new ArrayList<>();
 
+        ArrayList<Room> rm;
+
+        rm = DBManager.getRoomList();
+
+        Object rowData[][] = new Object[rm.size()][2];
+
+        Object columnNames[] = { "Room Id", "Type"};
+
+        int i=0;
+
+        for (Room r: rm) {
+
+            roomDbIds .add(r.getId());
+
+            rowData[i][0]=r.getId();
+
+            rowData[i][1]=r.getType();
+
+            
+
+            i++;
+
+        }
+
+        table1 = new JTable(
+
+        new javax.swing.table.DefaultTableModel(
+
+                rowData,
+
+                columnNames) {
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+
+                if (currentRow!=-1){
+
+                    if (currentRow!=rowIndex){
+
+                      //  saveThePreviewsCollumn();
+
+                        currentRow = rowIndex;
+
+                    }
+
+                }
+
+                else
+
+                    currentRow = rowIndex;
+
+                if (columnIndex==0)
+
+                    return false;
+
+                else
+
+                    return  true;
+
+            }
+
+        });
+
+        //======== scrollPane1 ========
+
+        {
+
+        	scrollPane1.setViewportView(table1);
+        }
+		
+	}
+	
+	
+ 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - babis naskre
 	private JScrollPane scrollPane1;
@@ -146,7 +217,6 @@ public class RoomListView extends JFrame {
 	private JButton button1;
 	private JButton button2;
 	private JButton button3;
-	private JButton button4;
 	private JLabel label1;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }
